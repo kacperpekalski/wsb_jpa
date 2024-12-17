@@ -11,6 +11,7 @@ public class VisitEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Column // nullable = true
 	private String description;
 
 	@Column(nullable = false)
