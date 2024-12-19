@@ -31,10 +31,12 @@ public class PatientEntity {
 	@Column(nullable = false)
 	private LocalDate dateOfBirth;
 
+	@Column(nullable = false)
+	private Integer age; // pole z lab 2
+
 	// Relacja jednostronna od strony rodzica (PatientEntity) do dziecka (VisitEntity)
 	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<VisitEntity> visits = new ArrayList<>();
-
 
 	public Long getId() {
 		return id;
@@ -98,5 +100,13 @@ public class PatientEntity {
 
 	public void setVisits(List<VisitEntity> visits) {
 		this.visits = visits;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
 	}
 }
