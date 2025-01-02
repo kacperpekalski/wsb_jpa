@@ -84,12 +84,33 @@ public class PatientDaoTest {
         assertThat(removed).isNull();
     }
 
-    @Test
+    /*@Test
     @Transactional
     public void testAddNewVisit() {
         // given
         Long patientId = 1L;
         Long doctorId = 1L;
+        LocalDateTime visitDate = LocalDateTime.of(2025, 1, 2, 10, 0);
+        String description = "Test visit";
+
+        // when
+        VisitEntity newVisit = patientDao.addNewVisit(patientId, doctorId, visitDate, description);
+
+        // then
+        assertThat(newVisit).isNotNull();
+        assertThat(newVisit.getId()).isNotNull();
+        assertThat(newVisit.getPatient().getId()).isEqualTo(patientId);
+        assertThat(newVisit.getDoctor().getId()).isEqualTo(doctorId);
+        assertThat(newVisit.getTime()).isEqualTo(visitDate);
+        assertThat(newVisit.getDescription()).isEqualTo(description);
+    }*/
+
+    @Test
+    @Transactional
+    public void testAddNewVisit() {
+        // given
+        Long patientId = 2L;
+        Long doctorId = 3L;
         LocalDateTime date = LocalDateTime.of(2025, 1, 18, 9, 15);
         String description = "wizyta testowa";
 
@@ -98,7 +119,7 @@ public class PatientDaoTest {
 
         // then
         assertThat(newVisit).isNotNull();
-        //assertThat(newVisit.getId()).isNotNull();
+        assertThat(newVisit.getId()).isNotNull();
         assertThat(newVisit.getDescription()).isEqualTo(description);
         assertThat(newVisit.getPatient().getId()).isEqualTo(patientId);
         assertThat(newVisit.getDoctor().getId()).isEqualTo(doctorId);

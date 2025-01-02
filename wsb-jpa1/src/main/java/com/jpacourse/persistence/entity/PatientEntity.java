@@ -34,11 +34,15 @@ public class PatientEntity {
 	@Column(nullable = false)
 	private Integer age; // pole z lab 2
 
+	// Relacja dwustronna od strony rodzica (właściciela relacji): PatientEntity (ta encja)
+	// Strona dziecka: AddressEntity
 	// Relacja jeden do jeden PatientEntity z AddressEntity, gdzie jeden pacjent ma jeden adres
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private AddressEntity address;
 
+	// Relacja dwustronna od strony rodzica: PatientEntity
+	// Strona dziecka: VisitEntity
 	// Relacja jeden do wielu, gdzie jeden PatientEntity ma wiele rekordów w VisitEntity
 	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<VisitEntity> visits = new ArrayList<>();

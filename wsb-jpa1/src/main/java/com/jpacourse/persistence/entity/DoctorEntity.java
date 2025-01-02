@@ -33,6 +33,8 @@ public class DoctorEntity {
 	@Enumerated(EnumType.STRING)
 	private Specialization specialization;
 
+	// Relacja dwustronna od strony dziecka: VisitEntity
+	// Strona rodzica (właściciela relacji): DoctorEntity (ta encja)
 	// Relacja jeden do wielu, gdzie jeden DoctorEntity ma wiele rekordów z VisitEntity
 	@OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<VisitEntity> visits = new ArrayList<>();

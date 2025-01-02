@@ -20,6 +20,8 @@ public class MedicalTreatmentEntity {
 	@Enumerated(EnumType.STRING)
 	private TreatmentType type;
 
+	// Relacja dwustronna od strony dziecka: MedicalTreatmentEntity
+	// Strona rodzica (właściciela relacji): VisitEntit
 	// Relacja wiele do jednego, gdzie wiele MedicalTreatment ma jedną wizytę
 	@ManyToOne
 	@JoinColumn(name = "visit_id", nullable = false)
@@ -50,5 +52,7 @@ public class MedicalTreatmentEntity {
 		this.type = type;
 	}
 
-
+	public void setVisit(VisitEntity visit) {
+		this.visit = visit;
+	}
 }

@@ -19,16 +19,22 @@ public class VisitEntity {
 	@Column(nullable = false)
 	private LocalDateTime time;
 
+	// Relacja dwustronna od strony dziecka: VisitEntity
+	// Strona rodzica (właściciela relacji): PatientEntity
 	// Relacja wiele do jednego, gdzie jeden pacjent ma wiele wizyt
 	@ManyToOne
 	@JoinColumn(name = "patient_id", nullable = false)
 	private PatientEntity patient;
 
+	// Relacja dwustronna od strony dziecka: VisitEntity
+	// Strona rodzica (właściciela relacji): DoctorEntity
 	// Relacja wiele do jednego, gdzie wiele rekordów VisitEntity ma jeden rekord z DoctorEntity
 	@ManyToOne
 	@JoinColumn(name = "doctor_id", nullable = false)
 	private DoctorEntity doctor;
 
+	// Relacja dwustronna od strony rodzica (właściciela relacji): VisitEntity (ta encja)
+	// Strona dziecka: MedicalTreatmentEntity
 	// Relacja jeden do wielu, gdzie jeden rekord VisitEntity ma wiele rekordów z MedicalTreatmentsEntity
 	@OneToMany(mappedBy = "visit", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<MedicalTreatmentEntity> medicalTreatments = new ArrayList<>();

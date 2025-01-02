@@ -22,6 +22,8 @@ public class AddressEntity {
 	@Column(nullable = false)
 	private String postalCode;
 
+	// Relacja jednostronna od strony dziecka (AddressEntity)
+	// Strona rodzica (właściciela relacji): PatientEntity
 	// Relacja jeden do jeden PatientEntity z AddressEntity, gdzie jeden adres ma jednego pacjenta
 	@OneToOne(mappedBy = "address")
 	private PatientEntity patient;
@@ -64,6 +66,14 @@ public class AddressEntity {
 
 	public void setPostalCode(String postalCode) {
 		this.postalCode = postalCode;
+	}
+
+	public PatientEntity getPatient() {
+		return patient;
+	}
+
+	public void setPatient(PatientEntity patient) {
+		this.patient = patient;
 	}
 
 }
