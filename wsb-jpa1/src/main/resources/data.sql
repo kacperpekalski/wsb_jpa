@@ -24,40 +24,42 @@ INSERT INTO DOCTOR (id, first_name, last_name, telephone_number, email, doctor_n
 VALUES (1, 'John', 'Wick', '987654321', 'john.wick@gmail.com', '333', 'OCULIST');
 
 INSERT INTO DOCTOR (id, first_name, last_name, telephone_number, email, doctor_number, specialization)
-VALUES (2, 'Anastazja', 'Kowalska', '545454454', 'maria.kowalska@gmail.com', '111', 'SURGEON');
+VALUES (2, 'Anastazja', 'Kowalska', '545454454', 'anastazja.kowalska@gmail.com', '111', 'SURGEON');
 
 INSERT INTO DOCTOR (first_name, last_name, telephone_number, email, doctor_number, specialization)
 VALUES ( 'Piotr', 'Nowakowski', '123456789', 'piotr.nowak@gmail.com', '222', 'GP');
 
 
 
-INSERT INTO MEDICAL_TREATMENT (id, description, type)
-VALUES (1, 'General treatment', 'EKG');
-
-INSERT INTO MEDICAL_TREATMENT (id, description, type)
-VALUES (2, 'Abdominal ultrasound', 'USG');
-
-INSERT INTO MEDICAL_TREATMENT (id, description, type)
-VALUES (3, 'Chest X-ray', 'RTG');
-
-
-
 -- Wizyty z relacjami do pacjenta, doktora i zabiegu medycznego
-INSERT INTO VISIT (id, description, time, patient_id, doctor_id, medical_treatment_id)
-VALUES (1, 'First Visit', '2024-11-30 10:00:00', 1, 1, 1);
+INSERT INTO VISIT (id, description, time, patient_id, doctor_id)
+VALUES (1, 'First Visit', '2024-11-30 10:00:00', 1, 1);
 
-INSERT INTO VISIT (id, description, time, patient_id, doctor_id, medical_treatment_id)
-VALUES (2, 'Health Check', '2024-12-04 9:45:00', 3, 3, 1);
+INSERT INTO VISIT (id, description, time, patient_id, doctor_id)
+VALUES (2, 'Health Check', '2024-12-04 9:45:00', 3, 2);
 
-INSERT INTO VISIT (id, description, time, patient_id, doctor_id, medical_treatment_id)
-VALUES (3, 'Control-visit', '2028-04-12 12:30:00', 2, 1, 2);
+INSERT INTO VISIT (id, description, time, patient_id, doctor_id)
+VALUES (3, 'Control-visit', '2028-04-12 12:30:00', 2, 3);
 
-INSERT INTO VISIT (description, time, patient_id, doctor_id, medical_treatment_id)
-VALUES ('Surgical consultation', '2024-11-20 14:00:00', 4, 2, 2);
+INSERT INTO VISIT (description, time, patient_id, doctor_id)
+VALUES ('Surgical consultation', '2024-11-20 14:00:00', 4, 2);
 
-INSERT INTO VISIT (description, time, patient_id, doctor_id, medical_treatment_id)
-VALUES ('Second Visit', '2024-12-22 18:30:00', 1, 1, 3);
+INSERT INTO VISIT (description, time, patient_id, doctor_id)
+VALUES ('Second Visit', '2024-12-22 18:30:00', 1, 1);
 
+
+
+INSERT INTO MEDICAL_TREATMENT (id, description, type, visit_id)
+VALUES (1, 'General treatment', 'EKG', 1);
+
+INSERT INTO MEDICAL_TREATMENT (id, description, type, visit_id)
+VALUES (2, 'Abdominal ultrasound', 'USG', 2);
+
+INSERT INTO MEDICAL_TREATMENT (id, description, type, visit_id)
+VALUES (3, 'Chest X-ray', 'RTG', 3);
+
+INSERT INTO MEDICAL_TREATMENT (id, description, type, visit_id)
+VALUES (4, 'Laying on the bed', 'USG', 1);
 
 
 
@@ -72,6 +74,7 @@ SELECT
     MT.type AS medical_treatment_type,
     P.first_name || ' ' || P.last_name AS patient_full_name
 FROM VISIT V
-    JOIN DOCTOR D ON V.doctor_id = D.id
-    JOIN MEDICAL_TREATMENT MT ON V.medical_treatment_id = MT.id
-    JOIN PATIENT P ON V.patient_id = P.id;
+         JOIN DOCTOR D ON V.doctor_id = D.id
+         JOIN MEDICAL_TREATMENT MT ON MT.visit_id = V.id
+         JOIN PATIENT P ON V.patient_id = P.id
+ORDER BY V.time;

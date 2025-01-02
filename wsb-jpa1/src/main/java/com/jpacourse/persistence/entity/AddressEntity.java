@@ -22,6 +22,10 @@ public class AddressEntity {
 	@Column(nullable = false)
 	private String postalCode;
 
+	// Relacja jeden do jeden PatientEntity z AddressEntity, gdzie jeden adres ma jednego pacjenta
+	@OneToOne(mappedBy = "address")
+	private PatientEntity patient;
+
 	public Long getId() {
 		return id;
 	}

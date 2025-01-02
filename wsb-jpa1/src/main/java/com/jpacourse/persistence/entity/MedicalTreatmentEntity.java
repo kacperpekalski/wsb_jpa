@@ -3,8 +3,7 @@ package com.jpacourse.persistence.entity;
 import com.jpacourse.persistence.enums.TreatmentType;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+
 
 @Entity
 @Table(name = "MEDICAL_TREATMENT")
@@ -21,9 +20,10 @@ public class MedicalTreatmentEntity {
 	@Enumerated(EnumType.STRING)
 	private TreatmentType type;
 
-	// Relacja jednostronna od strony rodzica (MedicalTreatmentEntity) do dziecka (VisitEntity)
-	@OneToMany(mappedBy = "medicalTreatment", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<VisitEntity> visits = new ArrayList<>();
+	// Relacja wiele do jednego, gdzie wiele MedicalTreatment ma jedną wizytę
+	@ManyToOne
+	@JoinColumn(name = "visit_id", nullable = false)
+	private VisitEntity visit;
 
 
 	public Long getId() {
@@ -50,11 +50,5 @@ public class MedicalTreatmentEntity {
 		this.type = type;
 	}
 
-	public List<VisitEntity> getVisits() {
-		return visits;
-	}
 
-	public void setVisits(List<VisitEntity> visits) {
-		this.visits = visits;
-	}
 }
