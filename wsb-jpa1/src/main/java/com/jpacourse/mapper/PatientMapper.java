@@ -48,8 +48,7 @@ public final class PatientMapper {
         visitTO.setDoctorFullName(visitEntity.getDoctor().getFirstName() + " " + visitEntity.getDoctor().getLastName());
 
         // mapowanie listy typów z MedicalTreatment
-        List<String> medicalTreatmentTypes = visitEntity.getMedicalTreatment().getVisits().stream()
-                .map(VisitEntity::getMedicalTreatment)
+        List<String> medicalTreatmentTypes = visitEntity.getVisits().stream()
                 .map(MedicalTreatmentEntity::getType)
                 .map(TreatmentType::name)
                 .collect(Collectors.toList());

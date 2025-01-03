@@ -23,17 +23,18 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
         PatientEntity patientEntity = entityManager.find(PatientEntity.class, patientId);
         DoctorEntity doctorEntity = entityManager.find(DoctorEntity.class, doctorId);
 
-        MedicalTreatmentEntity medicalTreatment = new MedicalTreatmentEntity();
-        medicalTreatment.setDescription("Test description");
-        medicalTreatment.setType(TreatmentType.EKG);
-        entityManager.persist(medicalTreatment);
-
         VisitEntity visitEntity = new VisitEntity();
         visitEntity.setTime(date);
         visitEntity.setDescription(description);
         visitEntity.setDoctor(doctorEntity);
         visitEntity.setPatient(patientEntity);
-        visitEntity.setMedicalTreatment(medicalTreatment);
+        entityManager.persist(visitEntity);
+
+        MedicalTreatmentEntity medicalTreatment = new MedicalTreatmentEntity();
+        medicalTreatment.setDescription("Test description");
+        medicalTreatment.setType(TreatmentType.EKG);
+        medicalTreatment.setVisit(visitEntity);
+        entityManager.persist(medicalTreatment);
 
         patientEntity.getVisits().add(visitEntity);
         entityManager.merge(patientEntity);
