@@ -6,72 +6,69 @@ import com.jpacourse.persistence.entity.PatientEntity;
 import com.jpacourse.service.impl.PatientServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
 
+@SpringBootTest
 public class PatientServiceTest {
 
-    @Mock
+    @Autowired
     private PatientDao patientDao;
 
-    @InjectMocks
     private PatientServiceImpl patientService;
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+        patientService = new PatientServiceImpl(patientDao);
     }
 
     @Test
+    @Transactional
     public void testFindByIdShouldReturnPatientTO() {
-        Long patientId = 1L;
-
         PatientEntity patientEntity = new PatientEntity();
-        patientEntity.setId(patientId);
-        patientEntity.setFirstName("John");
-        patientEntity.setLastName("Doe");
+        patientEntity.setFirstName("Test");
+        patientEntity.setLastName("Testowski");
         patientEntity.setAge(30);
         patientEntity.setTelephoneNumber("123456789");
-        patientEntity.setEmail("john.doe@example.com");
-        patientEntity.setPatientNumber("P12345");
-        patientEntity.setDateOfBirth(LocalDate.of(1993, 5, 20));
+        patientEntity.setEmail("test.testowski@aaa.com");
+        patientEntity.setPatientNumber("P112211");
+        patientEntity.setDateOfBirth(LocalDate.of(1993, 2, 11));
         patientEntity.setVisits(Collections.emptyList());
 
-        when(patientDao.findOne(patientId)).thenReturn(patientEntity);
+        patientEntity = patientDao.save(patientEntity);
+        Long patientId = patientEntity.getId();
 
         PatientTO result = patientService.findById(patientId);
 
         assertThat(result).isNotNull();
         assertThat(result.getId()).isEqualTo(patientId);
-        assertThat(result.getFirstName()).isEqualTo("John");
-        assertThat(result.getLastName()).isEqualTo("Doe");
+        assertThat(result.getFirstName()).isEqualTo("Test");
+        assertThat(result.getLastName()).isEqualTo("Testowski");
         assertThat(result.getAge()).isEqualTo(30);
         assertThat(result.getTelephoneNumber()).isEqualTo("123456789");
-        assertThat(result.getEmail()).isEqualTo("john.doe@example.com");
-        assertThat(result.getPatientNumber()).isEqualTo("P12345");
-        assertThat(result.getDateOfBirth()).isEqualTo(LocalDate.of(1993, 5, 20));
+        assertThat(result.getEmail()).isEqualTo("test.testowski@aaa.com");
+        assertThat(result.getPatientNumber()).isEqualTo("P112211");
+        assertThat(result.getDateOfBirth()).isEqualTo(LocalDate.of(1993, 2, 11));
         assertThat(result.getVisits()).isEmpty();
 
-        verify(patientDao, times(1)).findOne(patientId);
+        System.out.println("PatientTO: ");
+        System.out.println("ID: " + result.getId());
+        System.out.println("First Name: " + result.getFirstName());
     }
 
     @Test
+    @Transactional
     public void testFindByIdShouldReturnNullIfPatientNotFound() {
-        Long patientId = 1L;
-
-        when(patientDao.findOne(patientId)).thenReturn(null);
+        Long patientId = 999L;
 
         PatientTO result = patientService.findById(patientId);
 
         assertThat(result).isNull();
-
-        verify(patientDao, times(1)).findOne(patientId);
     }
 }
