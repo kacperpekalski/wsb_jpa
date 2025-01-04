@@ -3,6 +3,7 @@ package com.jpacourse.persistance.dao;
 import com.jpacourse.persistence.dao.PatientDao;
 import com.jpacourse.persistence.entity.PatientEntity;
 import com.jpacourse.persistence.entity.VisitEntity;
+import com.jpacourse.persistence.enums.TreatmentType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -112,17 +112,22 @@ public class PatientDaoTest {
         Long patientId = 2L;
         Long doctorId = 3L;
         LocalDateTime date = LocalDateTime.of(2025, 1, 18, 9, 15);
-        String description = "wizyta testowa";
+        String visitDescription = "wizyta testowa";
+        String treatmentDescription = "opis testowy";
+        TreatmentType treatmentType = TreatmentType.EKG;
 
         // when
-        VisitEntity newVisit = patientDao.addNewVisit(patientId, doctorId, date, description);
+        VisitEntity newVisit = patientDao.addNewVisit(patientId, doctorId, date, visitDescription, treatmentDescription, treatmentType);
 
         // then
         assertThat(newVisit).isNotNull();
-        assertThat(newVisit.getId()).isNotNull();
-        assertThat(newVisit.getDescription()).isEqualTo(description);
+        assertThat(newVisit.getDescription()).isEqualTo(visitDescription);
         assertThat(newVisit.getPatient().getId()).isEqualTo(patientId);
         assertThat(newVisit.getDoctor().getId()).isEqualTo(doctorId);
+
+        // Dodatkowe asercje dla MedicalTreatmentEntity
+        assertThat(newVisit.getVisits().get(0).getDescription()).isEqualTo(treatmentDescription);
+        assertThat(newVisit.getVisits().get(0).getType()).isEqualTo(treatmentType);
     }
 
 }

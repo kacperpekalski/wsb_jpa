@@ -4,16 +4,16 @@ INSERT INTO address (id, address_line1, address_line2, city, postal_code)
 
 
 INSERT INTO PATIENT (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, age)
-VALUES (1, 'Łukasz', 'Szkolarz', '123123331', 'lukasz.szkolarz@kalafior.pl', 'P420', '1912-02-09', 44);
+VALUES (1, 'Lukasz', 'Szkolarz', '123123331', 'lukasz.szkolarz@kalafior.pl', 'P420', '1912-02-09', 44);
+
+INSERT INTO PATIENT (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, age, address_id)
+VALUES (2, 'Marcin', 'Szklarski', '555666777', 'marcin.szklarski@pomidor.pl', 'P1337', '1919-11-11', 33, 1);
 
 INSERT INTO PATIENT (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, age)
-VALUES (2, 'Marcin', 'Szklarski', '555666777', 'marcin.szklarski@pomidor.pl', 'P1337', '1919-11-11', 33);
+VALUES (3, 'Kacper', 'Pekalski', '692137666', 'kacper.pekalski@baklazan.pl', 'P2137', '1966-12-12', 99);
 
 INSERT INTO PATIENT (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, age)
-VALUES (3, 'Kacper', 'Pękalski', '692137666', 'kacper.pekalski@baklazan.pl', 'P2137', '1966-12-12', 99);
-
-INSERT INTO PATIENT (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, age)
-VALUES (4, 'Bonifacy', 'Wesoły', '999888777', 'anna.nowak@gmail.com', 'P123', '1980-05-15', 25);
+VALUES (4, 'Bonifacy', 'Wesoly', '999888777', 'bonifacy.wesoly@gmail.com', 'P123', '1980-05-15', 25);
 
 INSERT INTO PATIENT (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, age)
 VALUES (5, 'Jan', 'Kowalski', '444555666', 'jan.kowalski@gmail.com', 'P456', '1995-08-20', 30);
