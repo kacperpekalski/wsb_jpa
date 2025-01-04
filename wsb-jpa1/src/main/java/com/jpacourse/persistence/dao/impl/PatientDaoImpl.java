@@ -7,16 +7,10 @@ import com.jpacourse.persistence.entity.PatientEntity;
 import com.jpacourse.persistence.entity.VisitEntity;
 import com.jpacourse.persistence.enums.TreatmentType;
 import org.springframework.stereotype.Repository;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 
 @Repository
 public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements PatientDao {
-
-    @PersistenceContext
-    private EntityManager entityManager;
 
     @Override
     public VisitEntity addNewVisit(Long patientId, Long doctorId, LocalDateTime date, String description) {
