@@ -2,7 +2,6 @@ package com.jpacourse.service;
 
 import com.jpacourse.dto.PatientTO;
 import com.jpacourse.persistence.dao.PatientDao;
-import com.jpacourse.persistence.entity.PatientEntity;
 import com.jpacourse.service.impl.PatientServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -31,35 +29,26 @@ public class PatientServiceTest {
     @Test
     @Transactional
     public void testFindByIdShouldReturnPatientTO() {
-        PatientEntity patientEntity = new PatientEntity();
-        patientEntity.setFirstName("Test");
-        patientEntity.setLastName("Testowski");
-        patientEntity.setAge(30);
-        patientEntity.setTelephoneNumber("123456789");
-        patientEntity.setEmail("test.testowski@aaa.com");
-        patientEntity.setPatientNumber("P112211");
-        patientEntity.setDateOfBirth(LocalDate.of(1993, 2, 11));
-        patientEntity.setVisits(Collections.emptyList());
+        // given
+        Long patientId = 1L; // ID pacjenta z data.sql
 
-        patientEntity = patientDao.save(patientEntity);
-        Long patientId = patientEntity.getId();
-
+        // when
         PatientTO result = patientService.findById(patientId);
 
+        // then
         assertThat(result).isNotNull();
         assertThat(result.getId()).isEqualTo(patientId);
-        assertThat(result.getFirstName()).isEqualTo("Test");
-        assertThat(result.getLastName()).isEqualTo("Testowski");
-        assertThat(result.getAge()).isEqualTo(30);
-        assertThat(result.getTelephoneNumber()).isEqualTo("123456789");
-        assertThat(result.getEmail()).isEqualTo("test.testowski@aaa.com");
-        assertThat(result.getPatientNumber()).isEqualTo("P112211");
-        assertThat(result.getDateOfBirth()).isEqualTo(LocalDate.of(1993, 2, 11));
-        assertThat(result.getVisits()).isEmpty();
+        assertThat(result.getFirstName()).isEqualTo("Lukasz"); //dane również z data.sql
+        assertThat(result.getLastName()).isEqualTo("Szkolarz");
+        assertThat(result.getAge()).isEqualTo(44);
+        assertThat(result.getTelephoneNumber()).isEqualTo("123123331");
+        assertThat(result.getEmail()).isEqualTo("lukasz.szkolarz@kalafior.pl");
+        assertThat(result.getPatientNumber()).isEqualTo("P420");
+        assertThat(result.getDateOfBirth()).isEqualTo(LocalDate.of(1912, 2, 9));
 
-        System.out.println("PatientTO: ");
+        System.out.println("\nPatientTO:\n");
         System.out.println("ID: " + result.getId());
-        System.out.println("First Name: " + result.getFirstName());
+        System.out.println("First Name: " + result.getFirstName() + "\n");
     }
 
     @Test
