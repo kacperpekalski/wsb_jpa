@@ -7,7 +7,9 @@ import com.jpacourse.persistence.entity.PatientEntity;
 import com.jpacourse.persistence.entity.VisitEntity;
 import com.jpacourse.persistence.enums.TreatmentType;
 import org.springframework.stereotype.Repository;
+
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements PatientDao {
@@ -30,16 +32,61 @@ public class PatientDaoImpl extends AbstractDao<PatientEntity, Long> implements 
 
         visitEntity.getVisits().add(medicalTreatment);
 
-        //entityManager.persist(visitEntity);
-        //entityManager.persist(medicalTreatment);
-
         patientEntity.getVisits().add(visitEntity);
 
-        //tutaj update zamiast merge
         update(patientEntity);
 
         return visitEntity;
     }
 
+
+    @Override
+    public List<PatientEntity> findPatientsByLastName(String last_name) {
+        return entityManager.createQuery("SELECT p FROM PatientEntity p " +
+                        "WHERE lastName = :lastName", PatientEntity.class)
+                .setParameter("lastName", last_name)
+                .getResultList();
+    }
+
+
+    @Override
+    public List<VisitEntity> findVisitsByPatientId(Long patient_Id) {
+        return entityManager.createQuery("SELECT v FROM VisitEntity v " +
+                        "JOIN FETCH v.patient p " +
+                        "WHERE p.id = :patientId", VisitEntity.class)
+                .setParameter("patientId", patient_Id)
+                .getResultList();
+    }
+
+    @Override
+    public List<PatientEntity> findPatientsWithMoreThanXVisits(Integer x) {
+        return entityManager.createQuery("SELECT p FROM PatientEntity p " +
+                        "JOIN FETCH p.visits v " +
+                        "GROUP BY p " +
+                        "HAVING COUNT(v) > :x", PatientEntity.class)
+                .setParameter("x", x)
+                .getResultList();
+    }
+
+
+
+    // znajdz pacjentów z wiekiem mniejszym niż podany (age to dodane pole z lab 2)
+    @Override
+    public List<PatientEntity> findPatientsByAgeLessThan(Integer age) {
+        return entityManager.createQuery("SELECT p FROM PatientEntity p " +
+                        "WHERE p.age < :age", PatientEntity.class)
+                .setParameter("age", age)
+                .getResultList();
+    }
+
+
+    // znajdz pacjentów z wiekiem wiekszym niż podany (age to dodane pole z lab 2)
+    @Override
+    public List<PatientEntity> findPatientsByAgeGreaterThan(Integer age) {
+        return entityManager.createQuery("SELECT p FROM PatientEntity p " +
+                        "WHERE p.age > :age", PatientEntity.class)
+                .setParameter("age", age)
+                .getResultList();
+    }
 
 }
