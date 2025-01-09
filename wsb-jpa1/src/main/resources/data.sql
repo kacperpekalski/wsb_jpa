@@ -12,7 +12,7 @@ INSERT INTO PATIENT (id, first_name, last_name, telephone_number, email, patient
 VALUES (3, 'Kacper', 'Pekalski', '692137666', 'kacper.pekalski@baklazan.pl', 'P2137', '1966-12-12', 99);
 
 INSERT INTO PATIENT (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, age)
-VALUES (4, 'Bonifacy', 'Wesoly', '999888777', 'anna.nowak@gmail.com', 'P123', '1980-05-15', 25);
+VALUES (4, 'Bonifacy', 'Wesoly', '999888777', 'bonifacy.wesoly@gmail.com', 'P123', '1980-05-15', 25);
 
 INSERT INTO PATIENT (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, age)
 VALUES (5, 'Jan', 'Kowalski', '444555666', 'jan.kowalski@gmail.com', 'P456', '1995-08-20', 30);
@@ -63,17 +63,31 @@ VALUES ('Visit y', '2025-04-21 12:00:00', 1, 3);
 
 
 
-INSERT INTO MEDICAL_TREATMENT (id, description, type, visit_id)
-VALUES (1, 'General treatment', 'EKG', 1);
 
 INSERT INTO MEDICAL_TREATMENT (id, description, type, visit_id)
-VALUES (2, 'Abdominal ultrasound', 'USG', 2);
+VALUES (1, 'Abdominal ultrasound', 'USG', 2);
 
 INSERT INTO MEDICAL_TREATMENT (id, description, type, visit_id)
-VALUES (3, 'Chest X-ray', 'RTG', 3);
+VALUES (2, 'Chest X-ray', 'RTG', 3);
 
 INSERT INTO MEDICAL_TREATMENT (id, description, type, visit_id)
-VALUES (4, 'Laying on the bed', 'USG', 1);
+VALUES (3, 'Laying on the bed', 'USG', 1);
+
+
+
+--Wizyty 1, 5, 6 oraz 7 mają przypisanego pacjenta 1, dlatego te
+--cztery poniższe wizyty są brane pod uwagę w teście w PatientServiceTest
+INSERT INTO MEDICAL_TREATMENT (description, type, visit_id)
+VALUES ('General treatment', 'EKG', 1);
+
+INSERT INTO MEDICAL_TREATMENT (description, type, visit_id)
+VALUES ('Blood collection', 'USG', 5);
+
+INSERT INTO MEDICAL_TREATMENT (description, type, visit_id)
+VALUES ( 'Dental treatment','RTG', 6);
+
+INSERT INTO MEDICAL_TREATMENT (description, type, visit_id)
+VALUES ('Just buy medicines', 'USG', 7);
 
 
 

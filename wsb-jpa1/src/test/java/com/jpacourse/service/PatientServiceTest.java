@@ -1,7 +1,9 @@
 package com.jpacourse.service;
 
 import com.jpacourse.dto.PatientTO;
+import com.jpacourse.dto.VisitTO;
 import com.jpacourse.persistence.dao.PatientDao;
+import com.jpacourse.persistence.entity.VisitEntity;
 import com.jpacourse.service.impl.PatientServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -59,5 +62,24 @@ public class PatientServiceTest {
         PatientTO result = patientService.findById(patientId);
 
         assertThat(result).isNull();
+    }
+
+
+    //w tym teście patient o ID 1 ma przypisane 4 wizyty (data.sql), dlatego testujemy wartość '4'
+    @Test
+    @Transactional
+    public void testFindVisitsByPatientId() {
+        // given
+        Long patientId = 1L;
+
+        // when
+        List<VisitTO> visits = patientService.findVisitsByPatientId(patientId);
+
+        // then
+        assertThat(visits).isNotEmpty();
+        assertThat(visits.size()).isEqualTo(4);
+        visits.forEach(visitTO ->
+                assertThat(visitTO.getMedicalTreatmentTypes()).isNotEmpty()
+        );
     }
 }
