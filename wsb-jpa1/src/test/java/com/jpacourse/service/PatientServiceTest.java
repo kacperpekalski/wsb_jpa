@@ -3,7 +3,6 @@ package com.jpacourse.service;
 import com.jpacourse.dto.PatientTO;
 import com.jpacourse.dto.VisitTO;
 import com.jpacourse.persistence.dao.PatientDao;
-import com.jpacourse.persistence.entity.VisitEntity;
 import com.jpacourse.service.impl.PatientServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -65,6 +64,7 @@ public class PatientServiceTest {
     }
 
 
+    //lab 3
     //w tym teście patient o ID 1 ma przypisane 4 wizyty (data.sql), dlatego testujemy wartość '4'
     @Test
     @Transactional

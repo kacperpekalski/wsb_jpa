@@ -9,12 +9,15 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertThrows;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -33,6 +36,7 @@ public class PatientDaoTest {
         assertThat(patientEntity).isNotNull();
         assertThat(patientEntity.getAge()).isEqualTo(99);
     }
+
 
     @Transactional
     @Test
@@ -57,6 +61,7 @@ public class PatientDaoTest {
         assertThat(saved.getId()).isNotNull();
         assertThat(patientDao.count()).isEqualTo(entitiesNumBefore + 1);
     }
+
 
     @Transactional
     @Test
@@ -84,26 +89,6 @@ public class PatientDaoTest {
         assertThat(removed).isNull();
     }
 
-    /*@Test
-    @Transactional
-    public void testAddNewVisit() {
-        // given
-        Long patientId = 1L;
-        Long doctorId = 1L;
-        LocalDateTime visitDate = LocalDateTime.of(2025, 1, 2, 10, 0);
-        String description = "Test visit";
-
-        // when
-        VisitEntity newVisit = patientDao.addNewVisit(patientId, doctorId, visitDate, description);
-
-        // then
-        assertThat(newVisit).isNotNull();
-        assertThat(newVisit.getId()).isNotNull();
-        assertThat(newVisit.getPatient().getId()).isEqualTo(patientId);
-        assertThat(newVisit.getDoctor().getId()).isEqualTo(doctorId);
-        assertThat(newVisit.getTime()).isEqualTo(visitDate);
-        assertThat(newVisit.getDescription()).isEqualTo(description);
-    }*/
 
     @Test
     @Transactional
@@ -128,6 +113,77 @@ public class PatientDaoTest {
         // Dodatkowe asercje dla MedicalTreatmentEntity
         assertThat(newVisit.getVisits().get(0).getDescription()).isEqualTo(treatmentDescription);
         assertThat(newVisit.getVisits().get(0).getType()).isEqualTo(treatmentType);
+    }
+
+
+    // lab 3
+    @Test
+    @Transactional
+    public void testFindPatientsWithMoreThanXVisits() {
+        // given
+        Integer x = 2; // more than 2 visits
+
+        // when
+        List<PatientEntity> patients = patientDao.findPatientsWithMoreThanXVisits(x);
+
+        // then
+        assertThat(patients).isNotEmpty();
+
+        patients.forEach(patient ->
+                assertThat(patient.getVisits().size()).isGreaterThan(x));
+    }
+
+
+    // lab 3
+    @Test
+    @Transactional
+    public void testFindPatientsByAgeLessThan() {
+        // given
+        int age = 40;
+
+        // when
+        List<PatientEntity> patients = patientDao.findPatientsByAgeLessThan(age);
+
+        // then
+        assertThat(patients).isNotEmpty();
+
+        patients.forEach(patient ->
+                assertThat(patient.getAge()).isLessThan(age));
+    }
+
+    //lab 3
+    @Test
+    @Transactional
+    public void testFindPatientsByAgeGreaterThan() {
+        // given
+        int age = 40;
+
+        // when
+        List<PatientEntity> patients = patientDao.findPatientsByAgeGreaterThan(age);
+
+        // then
+        assertThat(patients).isNotEmpty();
+
+        patients.forEach(patient ->
+                assertThat(patient.getAge()).isGreaterThan(age));
+    }
+
+
+    //lab 3
+    @Test
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
+    public void testOptimisticLockingOnTheSamePatient() {
+
+        PatientEntity patientFirstTry = patientDao.findOne(3L);
+        PatientEntity patientSecondTry = patientDao.findOne(3L);
+
+        patientFirstTry.setFirstName("Test Name - first try (successful)");
+        patientDao.update(patientFirstTry);
+
+        patientSecondTry.setFirstName("Test Name - second try (should throw OptimisticLock Exception)");
+
+        assertThrows(org.springframework.orm.ObjectOptimisticLockingFailureException.class, () ->
+                patientDao.update(patientSecondTry));
     }
 
 }

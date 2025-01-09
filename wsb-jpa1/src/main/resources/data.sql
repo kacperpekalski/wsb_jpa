@@ -2,14 +2,14 @@ INSERT INTO address (id, address_line1, address_line2, city, postal_code)
 VALUES (1, 'xx', 'yy', 'city', '62-030');
 
 
-INSERT INTO PATIENT (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, age)
-VALUES (1, 'Lukasz', 'Szkolarz', '123123331', 'lukasz.szkolarz@kalafior.pl', 'P420', '1912-02-09', 44);
+INSERT INTO PATIENT (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, age, version, address_id)
+VALUES (1, 'Lukasz', 'Szkolarz', '123123331', 'lukasz.szkolarz@kalafior.pl', 'P420', '1912-02-09', 44, 0, 1);
 
-INSERT INTO PATIENT (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, age)
-VALUES (2, 'Marcin', 'Szklarski', '555666777', 'marcin.szklarski@pomidor.pl', 'P1337', '1919-11-11', 33);
+INSERT INTO PATIENT (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, age, version)
+VALUES (2, 'Marcin', 'Szklarski', '555666777', 'marcin.szklarski@pomidor.pl', 'P1337', '1919-11-11', 33, 0);
 
-INSERT INTO PATIENT (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, age)
-VALUES (3, 'Kacper', 'Pekalski', '692137666', 'kacper.pekalski@baklazan.pl', 'P2137', '1966-12-12', 99);
+INSERT INTO PATIENT (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, age, version)
+VALUES (3, 'Kacper', 'Pekalski', '692137666', 'kacper.pekalski@baklazan.pl', 'P2137', '1966-12-12', 99, 0);
 
 INSERT INTO PATIENT (id, first_name, last_name, telephone_number, email, patient_number, date_of_birth, age)
 VALUES (4, 'Bonifacy', 'Wesoly', '999888777', 'bonifacy.wesoly@gmail.com', 'P123', '1980-05-15', 25);
@@ -93,7 +93,7 @@ VALUES ('Just buy medicines', 'USG', 7);
 
 
 -- Przykład widoku, gdzie każda wizyta ma informacje o czasie,
--- imie i nazwisko lekarza oraz typy z MedicalTreatment (zadanie 1):
+-- imie i nazwisko lekarza oraz typy z MedicalTreatment (zadanie 1, lab2):
 
 CREATE VIEW doctor_visits AS
 SELECT

@@ -9,6 +9,10 @@ import java.util.List;
 @Table(name = "PATIENT")
 public class PatientEntity {
 
+	@Version
+	@Column(nullable = true)
+	private Integer version;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -44,7 +48,7 @@ public class PatientEntity {
 	// Relacja dwustronna od strony rodzica: PatientEntity
 	// Strona dziecka: VisitEntity
 	// Relacja jeden do wielu, gdzie jeden PatientEntity ma wiele rekordów w VisitEntity
-	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = false)
 	private List<VisitEntity> visits = new ArrayList<>();
 
 	public Long getId() {
@@ -126,5 +130,13 @@ public class PatientEntity {
 
 	public void setAddress(AddressEntity address) {
 		this.address = address;
+	}
+
+	public long getVersion() {
+		return version;
+	}
+
+	public void setVersion(int version) {
+		this.version = version;
 	}
 }
